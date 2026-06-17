@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Accessibility-first assistant for Battle.net account setup and personal web resources." />
+  <title>AccessForge — Battle.net Signup Assistant</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="app-header" role="banner">
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true">♿</span>
+      <div>
+        <h1>AccessForge</h1>
+        <p class="tagline">Signup assistant for Battle.net &amp; Overwatch</p>
+      </div>
+    </div>
+
+    <div class="access-toolbar" role="toolbar" aria-label="Accessibility controls">
+      <button type="button" id="font-decrease" class="tool-btn" aria-label="Decrease text size">A−</button>
+      <button type="button" id="font-reset" class="tool-btn" aria-label="Reset text size">A</button>
+      <button type="button" id="font-increase" class="tool-btn" aria-label="Increase text size">A+</button>
+      <button type="button" id="contrast-toggle" class="tool-btn" aria-pressed="false" aria-label="Toggle high contrast">Contrast</button>
+      <button type="button" id="reduce-motion-toggle" class="tool-btn" aria-pressed="false" aria-label="Toggle reduced motion">Motion</button>
+    </div>
+  </header>
+
+  <nav class="app-nav" aria-label="Main navigation">
+    <button type="button" class="nav-btn active" data-panel="guide" aria-current="page">Signup Guide</button>
+    <button type="button" class="nav-btn" data-panel="vault">My Info Vault</button>
+    <button type="button" class="nav-btn" data-panel="autofill">Auto-Fill</button>
+    <button type="button" class="nav-btn" data-panel="resources">Resource Console</button>
+  </nav>
+
+  <main id="main" class="app-main">
+    <!-- SIGNUP GUIDE -->
+    <section id="panel-guide" class="panel active" aria-labelledby="guide-heading">
+      <div class="panel-header">
+        <h2 id="guide-heading">Battle.net Account Setup</h2>
+        <p>Follow each step at your own pace. Use <kbd>Tab</kbd> and <kbd>Enter</kbd> to navigate. All data stays on your device.</p>
+      </div>
+
+      <div class="quick-actions" role="group" aria-label="Quick actions">
+        <button type="button" id="fill-all-now" class="action-btn fill-all-btn" aria-keyshortcuts="Alt+F">
+          ⚡ Create Account Now (1 Click)
+        </button>
+        <a
+          href="https://account.battle.net/creation/flow/creation-full"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="action-btn primary"
+          id="open-signup"
+        >
+          Open Battle.net Signup
+          <span class="sr-only">(opens in new tab)</span>
+        </a>
+        <a
+          href="https://account.battle.net/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="action-btn"
+        >
+          Open Battle.net Login
+        </a>
+        <a
+          href="https://support.blizzard.com/en/article/phone-number-on-account"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="action-btn"
+        >
+          Blizzard Phone Help
+        </a>
+      </div>
+
+      <p class="fill-all-hint one-click-hint">
+        One click opens Battle.net signup and starts automation (install the userscript once on the Auto-Fill tab).
+        Email verification, SMS codes, and CAPTCHA may still need you — AccessForge fills the wizard and pauses there.
+        Shortcut: <kbd>Alt</kbd>+<kbd>F</kbd>
+      </p>
+
+      <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="8" aria-valuenow="1" id="step-progress">
+        <div class="progress-fill" id="progress-fill"></div>
+        <span class="progress-label" id="progress-label">Step 1 of 8</span>
+      </div>
+
+      <ol class="step-list" id="step-list">
+        <li class="step-card" data-step="1">
+          <div class="step-header">
+            <span class="step-num" aria-hidden="true">1</span>
+            <h3>Prepare your email</h3>
+            <button type="button" class="step-done-btn" aria-label="Mark step 1 complete">Done</button>
+          </div>
+          <p>Use an email you can access. Gmail, Outlook, or any provider works. You'll need it for verification.</p>
+          <div class="step-tools">
+            <button type="button" class="copy-field-btn" data-copy-target="vault-email">Copy email</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="email">Auto-fill email</button>
+            <button type="button" class="speak-btn" data-speak="Use an email address you can check. Copy your saved email from the vault if you saved one.">Read aloud</button>
+          </div>
+        </li>
+
+        <li class="step-card" data-step="2">
+          <div class="step-header">
+            <span class="step-num" aria-hidden="true">2</span>
+            <h3>Open the signup page</h3>
+            <button type="button" class="step-done-btn" aria-label="Mark step 2 complete">Done</button>
+          </div>
+          <p>Click <strong>Create Account Now</strong> above to open signup and auto-fill the wizard. Or use <strong>Open Battle.net Signup</strong> for manual entry.</p>
+          <div class="step-tools">
+            <button type="button" class="speak-btn" data-speak="Click Open Battle.net Signup. It opens in a new browser tab.">Read aloud</button>
+          </div>
+        </li>
+
+        <li class="step-card" data-step="3">
+          <div class="step-header">
+            <span class="step-num" aria-hidden="true">3</span>
+            <h3>Enter country &amp; date of birth</h3>
+            <button type="button" class="step-done-btn" aria-label="Mark step 3 complete">Done</button>
+          </div>
+          <p>Select your country from the dropdown. Enter your birth date — this sets account restrictions for younger players.</p>
+          <div class="step-tools">
+            <button type="button" class="copy-field-btn" data-copy-target="vault-country">Copy country</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="country">Auto-fill country</button>
+            <button type="button" class="copy-field-btn" data-copy-target="vault-dob">Copy birth date</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="dob">Auto-fill birth date</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="dobMonth">Auto-fill month</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="dobDay">Auto-fill day</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="dobYear">Auto-fill year</button>
+            <button type="button" class="speak-btn" data-speak="Select your country and enter your date of birth on the Battle.net form.">Read aloud</button>
+          </div>
+        </li>
+
+        <li class="step-card" data-step="4">
+          <div class="step-header">
+            <span class="step-num" aria-hidden="true">4</span>
+            <h3>Create your BattleTag</h3>
+            <button type="button" class="step-done-btn" aria-label="Mark step 4 complete">Done</button>
+          </div>
+          <p>Your BattleTag is your public name (e.g. <code>PlayerName#1234</code>). Pick something you'll remember. Numbers are added automatically if your name is taken.</p>
+          <div class="step-tools">
+            <button type="button" class="copy-field-btn" data-copy-target="vault-battletag">Copy BattleTag</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="battletag">Auto-fill BattleTag</button>
+            <button type="button" class="speak-btn" data-speak="Choose a BattleTag. This is your display name in Blizzard games including Overwatch.">Read aloud</button>
+          </div>
+        </li>
+
+        <li class="step-card" data-step="5">
+          <div class="step-header">
+            <span class="step-num" aria-hidden="true">5</span>
+            <h3>Set email &amp; password</h3>
+            <button type="button" class="step-done-btn" aria-label="Mark step 5 complete">Done</button>
+          </div>
+          <p>Use a strong password (12+ characters, mix of letters, numbers, symbols). Save it in your Info Vault below or a password manager.</p>
+          <div class="step-tools">
+            <button type="button" class="copy-field-btn" data-copy-target="vault-email">Copy email</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="email">Auto-fill email</button>
+            <button type="button" class="copy-field-btn" data-copy-target="vault-password">Copy password</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="password">Auto-fill password</button>
+            <button type="button" class="copy-field-btn" data-copy-target="vault-password-confirm">Copy confirm</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="passwordConfirm">Auto-fill confirm</button>
+            <button type="button" class="speak-btn" data-speak="Enter your email and create a strong password. You can copy saved values from your vault.">Read aloud</button>
+          </div>
+        </li>
+
+        <li class="step-card" data-step="6">
+          <div class="step-header">
+            <span class="step-num" aria-hidden="true">6</span>
+            <h3>Verify your email</h3>
+            <button type="button" class="step-done-btn" aria-label="Mark step 6 complete">Done</button>
+          </div>
+          <p>Blizzard sends a verification link. Check your inbox and spam folder. Click the link to confirm your account.</p>
+          <div class="step-tools">
+            <button type="button" class="copy-field-btn" data-copy-target="vault-sms-code">Copy SMS code</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="smsCode">Auto-fill code</button>
+            <button type="button" class="speak-btn" data-speak="Check your email for a verification message from Blizzard. Click the link inside to verify.">Read aloud</button>
+          </div>
+        </li>
+
+        <li class="step-card" data-step="7">
+          <div class="step-header">
+            <span class="step-num" aria-hidden="true">7</span>
+            <h3>Add phone number (if asked)</h3>
+            <button type="button" class="step-done-btn" aria-label="Mark step 7 complete">Done</button>
+          </div>
+          <p>Some accounts require phone verification. Use a number you can receive texts on. Check the <strong>Resource Console</strong> tab for sites you've saved, or Blizzard's phone help link above.</p>
+          <div class="step-tools">
+            <button type="button" class="copy-field-btn" data-copy-target="vault-phone-code">Copy country code</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="phoneCode">Auto-fill code</button>
+            <button type="button" class="copy-field-btn" data-copy-target="vault-phone">Copy phone</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="phone">Auto-fill phone</button>
+            <button type="button" class="copy-field-btn" data-copy-target="vault-sms-code">Copy SMS code</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="smsCode">Auto-fill SMS</button>
+            <button type="button" class="nav-jump" data-panel="resources">Resource Console</button>
+            <button type="button" class="speak-btn" data-speak="If Blizzard asks for a phone number, use one where you can receive text messages. Your saved resources are in the Resource Console tab.">Read aloud</button>
+          </div>
+        </li>
+
+        <li class="step-card" data-step="8">
+          <div class="step-header">
+            <span class="step-num" aria-hidden="true">8</span>
+            <h3>Install Overwatch &amp; play</h3>
+            <button type="button" class="step-done-btn" aria-label="Mark step 8 complete">Done</button>
+          </div>
+          <p>Download the Battle.net app from <a href="https://www.blizzard.com/download" target="_blank" rel="noopener">blizzard.com/download</a>, log in, and install Overwatch 2 (free to play).</p>
+          <div class="step-tools">
+            <a href="https://www.blizzard.com/download" target="_blank" rel="noopener" class="action-btn small">Download Battle.net</a>
+            <button type="button" class="copy-field-btn" data-copy-target="vault-email">Copy email</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="email">Auto-fill login email</button>
+            <button type="button" class="autofill-field-btn" data-fill-field="password">Auto-fill login password</button>
+            <button type="button" class="speak-btn" data-speak="Download the Battle.net desktop app, sign in with your new account, and install Overwatch 2.">Read aloud</button>
+          </div>
+        </li>
+      </ol>
+
+      <div class="notes-area">
+        <label for="session-notes">Session notes (saved locally)</label>
+        <textarea id="session-notes" rows="4" placeholder="Jot down where you left off, codes you received, or anything you need to remember…"></textarea>
+      </div>
+    </section>
+
+    <!-- INFO VAULT -->
+    <section id="panel-vault" class="panel" aria-labelledby="vault-heading" hidden>
+      <div class="panel-header">
+        <h2 id="vault-heading">My Info Vault</h2>
+        <p>Store details here so you can copy them into forms with one click. Everything stays in your browser — nothing is sent online.</p>
+      </div>
+
+      <form id="vault-form" class="vault-form" autocomplete="off">
+        <div class="form-grid" id="vault-grid">
+          <div class="field">
+            <label for="vault-email">Email address</label>
+            <input type="email" id="vault-email" name="email" autocomplete="email" placeholder="you@example.com" data-fill="email" />
+            <button type="button" class="inline-copy" data-copy="vault-email" aria-label="Copy email">Copy</button>
+            <button type="button" class="inline-fill" data-fill="email" aria-label="Auto-fill email on open page">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-username">Username</label>
+            <input type="text" id="vault-username" name="username" autocomplete="username" data-fill="username" />
+            <button type="button" class="inline-copy" data-copy="vault-username" aria-label="Copy username">Copy</button>
+            <button type="button" class="inline-fill" data-fill="username" aria-label="Auto-fill username">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-password">Password</label>
+            <input type="password" id="vault-password" name="password" autocomplete="new-password" data-fill="password" />
+            <button type="button" class="inline-copy" data-copy="vault-password" aria-label="Copy password">Copy</button>
+            <button type="button" class="inline-toggle" id="toggle-password" aria-label="Show password">Show</button>
+            <button type="button" class="inline-fill" data-fill="password" aria-label="Auto-fill password">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-password-confirm">Confirm password</label>
+            <input type="password" id="vault-password-confirm" name="password-confirm" autocomplete="new-password" data-fill="passwordConfirm" />
+            <button type="button" class="inline-copy" data-copy="vault-password-confirm" aria-label="Copy confirm password">Copy</button>
+            <button type="button" class="inline-fill" data-fill="passwordConfirm" aria-label="Auto-fill confirm password">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-battletag">BattleTag</label>
+            <input type="text" id="vault-battletag" name="battletag" placeholder="CoolPlayer" maxlength="12" data-fill="battletag" />
+            <button type="button" class="inline-copy" data-copy="vault-battletag" aria-label="Copy BattleTag">Copy</button>
+            <button type="button" class="inline-fill" data-fill="battletag" aria-label="Auto-fill BattleTag">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-country">Country</label>
+            <select id="vault-country" name="country" autocomplete="country" data-fill="country"></select>
+            <button type="button" class="inline-copy" data-copy="vault-country" aria-label="Copy country">Copy</button>
+            <button type="button" class="inline-fill" data-fill="country" aria-label="Auto-fill country">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-dob">Date of birth</label>
+            <input type="date" id="vault-dob" name="dob" autocomplete="bday" data-fill="dob" />
+            <button type="button" class="inline-copy" data-copy="vault-dob" aria-label="Copy date of birth">Copy</button>
+            <button type="button" class="inline-fill" data-fill="dob" aria-label="Auto-fill date of birth">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-dob-month">Birth month</label>
+            <select id="vault-dob-month" name="dob-month" data-fill="dobMonth"></select>
+            <button type="button" class="inline-copy" data-copy="vault-dob-month" aria-label="Copy birth month">Copy</button>
+            <button type="button" class="inline-fill" data-fill="dobMonth" aria-label="Auto-fill birth month">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-dob-day">Birth day</label>
+            <select id="vault-dob-day" name="dob-day" data-fill="dobDay"></select>
+            <button type="button" class="inline-copy" data-copy="vault-dob-day" aria-label="Copy birth day">Copy</button>
+            <button type="button" class="inline-fill" data-fill="dobDay" aria-label="Auto-fill birth day">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-dob-year">Birth year</label>
+            <select id="vault-dob-year" name="dob-year" data-fill="dobYear"></select>
+            <button type="button" class="inline-copy" data-copy="vault-dob-year" aria-label="Copy birth year">Copy</button>
+            <button type="button" class="inline-fill" data-fill="dobYear" aria-label="Auto-fill birth year">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-firstname">First name</label>
+            <input type="text" id="vault-firstname" name="firstname" autocomplete="given-name" data-fill="firstname" />
+            <button type="button" class="inline-copy" data-copy="vault-firstname" aria-label="Copy first name">Copy</button>
+            <button type="button" class="inline-fill" data-fill="firstname" aria-label="Auto-fill first name">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-lastname">Last name</label>
+            <input type="text" id="vault-lastname" name="lastname" autocomplete="family-name" data-fill="lastname" />
+            <button type="button" class="inline-copy" data-copy="vault-lastname" aria-label="Copy last name">Copy</button>
+            <button type="button" class="inline-fill" data-fill="lastname" aria-label="Auto-fill last name">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-phone-code">Phone country code</label>
+            <input type="text" id="vault-phone-code" name="phone-code" placeholder="+1" data-fill="phoneCode" />
+            <button type="button" class="inline-copy" data-copy="vault-phone-code" aria-label="Copy phone code">Copy</button>
+            <button type="button" class="inline-fill" data-fill="phoneCode" aria-label="Auto-fill phone code">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-phone">Phone number</label>
+            <input type="tel" id="vault-phone" name="phone" autocomplete="tel-national" placeholder="555 000 0000" data-fill="phone" />
+            <button type="button" class="inline-copy" data-copy="vault-phone" aria-label="Copy phone">Copy</button>
+            <button type="button" class="inline-fill" data-fill="phone" aria-label="Auto-fill phone">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-sms-code">SMS / verification code</label>
+            <input type="text" id="vault-sms-code" name="sms-code" autocomplete="one-time-code" inputmode="numeric" data-fill="smsCode" />
+            <button type="button" class="inline-copy" data-copy="vault-sms-code" aria-label="Copy SMS code">Copy</button>
+            <button type="button" class="inline-fill" data-fill="smsCode" aria-label="Auto-fill SMS code">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-address">Street address</label>
+            <input type="text" id="vault-address" name="address" autocomplete="street-address" data-fill="address" />
+            <button type="button" class="inline-copy" data-copy="vault-address" aria-label="Copy address">Copy</button>
+            <button type="button" class="inline-fill" data-fill="address" aria-label="Auto-fill address">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-city">City</label>
+            <input type="text" id="vault-city" name="city" autocomplete="address-level2" data-fill="city" />
+            <button type="button" class="inline-copy" data-copy="vault-city" aria-label="Copy city">Copy</button>
+            <button type="button" class="inline-fill" data-fill="city" aria-label="Auto-fill city">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-state">State / province</label>
+            <input type="text" id="vault-state" name="state" autocomplete="address-level1" data-fill="state" />
+            <button type="button" class="inline-copy" data-copy="vault-state" aria-label="Copy state">Copy</button>
+            <button type="button" class="inline-fill" data-fill="state" aria-label="Auto-fill state">Fill</button>
+          </div>
+
+          <div class="field">
+            <label for="vault-zip">ZIP / postal code</label>
+            <input type="text" id="vault-zip" name="zip" autocomplete="postal-code" data-fill="zip" />
+            <button type="button" class="inline-copy" data-copy="vault-zip" aria-label="Copy ZIP">Copy</button>
+            <button type="button" class="inline-fill" data-fill="zip" aria-label="Auto-fill ZIP">Fill</button>
+          </div>
+        </div>
+
+        <p class="vault-status" id="vault-status" role="status" aria-live="polite">Changes save automatically.</p>
+      </form>
+
+      <div class="vault-actions">
+        <button type="button" id="export-vault" class="action-btn">Export vault (JSON)</button>
+        <button type="button" id="import-vault" class="action-btn">Import vault</button>
+        <input type="file" id="import-file" accept=".json" hidden />
+        <button type="button" id="clear-vault" class="action-btn danger">Clear all data</button>
+      </div>
+    </section>
+
+    <!-- AUTO-FILL -->
+    <section id="panel-autofill" class="panel" aria-labelledby="autofill-heading" hidden>
+      <div class="panel-header">
+        <h2 id="autofill-heading">Auto-Fill Console</h2>
+        <p>Fill Battle.net signup forms from your vault. Install the userscript once, then <strong>Create Account Now</strong> runs the full wizard automatically.</p>
+      </div>
+
+      <div class="autofill-install card fill-all-card">
+        <h3>One-click signup</h3>
+        <p>Install the userscript below (one time), fill your vault, then press the button — automation starts on Battle.net.</p>
+        <button type="button" id="fill-all-trigger" class="action-btn fill-all-btn" aria-keyshortcuts="Alt+F">
+          ⚡ Create Account Now (1 Click)
+        </button>
+        <p class="hint">Opens Battle.net with your vault data and auto-runs signup steps. Stops at email/SMS verification or CAPTCHA.</p>
+      </div>
+
+      <div class="autofill-install card">
+        <h3>1. Install automation (one time)</h3>
+        <p>Download the userscript and enable it in Tampermonkey, Violentmonkey, or similar. Also drag this bookmark as a fallback:</p>
+        <p class="bookmark-wrap">
+          <a href="#" id="bookmarklet-link" class="bookmarklet-link" draggable="true">⚡ AccessForge Automate</a>
+        </p>
+        <div class="install-actions">
+          <button type="button" id="copy-fill-script" class="action-btn">Copy fill script</button>
+          <button type="button" id="download-userscript" class="action-btn">Download userscript</button>
+          <button type="button" id="refresh-bookmarklet" class="action-btn">Refresh bookmark data</button>
+        </div>
+        <p class="hint">Userscript auto-starts from URL hash. Bookmark runs automation when clicked manually on the signup tab.</p>
+      </div>
+
+      <div class="autofill-install card">
+        <h3>2. What still needs you</h3>
+        <ul class="numbered-steps manual-steps">
+          <li><strong>Email verification</strong> — check inbox and click Blizzard's link</li>
+          <li><strong>SMS / phone codes</strong> — enter the code (save it in vault to auto-fill)</li>
+          <li><strong>CAPTCHA</strong> — complete manually if shown</li>
+        </ul>
+        <p class="hint">Per-field copy and fill buttons below still work for manual control.</p>
+      </div>
+
+      <div class="autofill-install card legacy-steps">
+        <h3>Manual fallback</h3>
+        <ol class="numbered-steps">
+          <li>Open Battle.net signup without automation</li>
+          <li>Click your <strong>AccessForge Automate</strong> bookmark, or use per-field Fill buttons</li>
+        </ol>
+      </div>
+
+      <div class="autofill-grid card">
+        <h3>Every field — copy or auto-fill</h3>
+        <div id="autofill-matrix" class="fill-matrix" aria-label="All autofill fields"></div>
+      </div>
+    </section>
+
+    <!-- RESOURCE CONSOLE -->
+    <section id="panel-resources" class="panel" aria-labelledby="resources-heading" hidden>
+      <div class="panel-header">
+        <h2 id="resources-heading">Resource Console</h2>
+        <p>Save links to websites you use during signup — phone services, email providers, support pages, anything helpful. You add and manage them yourself.</p>
+      </div>
+
+      <form id="resource-form" class="resource-form">
+        <div class="form-row">
+          <div class="field grow">
+            <label for="res-name">Site name</label>
+            <input type="text" id="res-name" required placeholder="e.g. Google Voice" />
+          </div>
+          <div class="field grow">
+            <label for="res-url">URL</label>
+            <input type="url" id="res-url" required placeholder="https://example.com" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="res-notes">Notes (optional)</label>
+          <input type="text" id="res-notes" placeholder="What this site is for…" />
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="res-category">Category</label>
+            <select id="res-category">
+              <option value="phone">Phone / SMS</option>
+              <option value="email">Email</option>
+              <option value="support">Support / Help</option>
+              <option value="gaming">Gaming</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <button type="submit" class="action-btn primary" id="res-submit">Add site</button>
+        </div>
+      </form>
+
+      <div class="resource-filters" role="group" aria-label="Filter resources">
+        <button type="button" class="filter-btn active" data-filter="all">All</button>
+        <button type="button" class="filter-btn" data-filter="phone">Phone</button>
+        <button type="button" class="filter-btn" data-filter="email">Email</button>
+        <button type="button" class="filter-btn" data-filter="support">Support</button>
+        <button type="button" class="filter-btn" data-filter="gaming">Gaming</button>
+        <button type="button" class="filter-btn" data-filter="other">Other</button>
+      </div>
+
+      <ul id="resource-list" class="resource-list" aria-label="Saved resources"></ul>
+
+      <p id="resource-empty" class="empty-state">No sites saved yet. Add one above to get started.</p>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <footer class="app-footer">
+    <p>AccessForge runs entirely in your browser. No accounts, no servers, no tracking.</p>
+    <p>Need help? <a href="https://support.blizzard.com/" target="_blank" rel="noopener">Blizzard Support</a></p>
+  </footer>
+
+  <script src="autofill-engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
